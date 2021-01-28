@@ -1,0 +1,23 @@
+img {
+  width: 25px;
+}
+
+.card {
+  width: 250px;
+  height: 250px;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 10px;
+  word-break: break-word;
+  overflow: hidden;
+  background: aqua;
+  margin: 5% 0 5% 0;
+}
+
+.notes {
+  height: 90%;
+}
+
+.like {
+  display: flex;
+}

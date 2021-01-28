@@ -1,0 +1,16 @@
+<div class="card" [class]='card.tileId' [id]="card.id" (click)="updateCard(card.id)">
+
+    <div class="notes">
+        {{card.notes}}
+    </div>
+
+    <div class="display">
+        <div class="like">
+            <img src="../../assets/heartblue.svg" alt="">
+            <div class="likes">
+                {{card.likes}}
+            </div>
+        </div>
+    </div>
+
+</div>

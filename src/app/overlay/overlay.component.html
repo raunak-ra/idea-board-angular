@@ -1,0 +1,21 @@
+<div class="overlay" [ngStyle]="{'display': displayPanel == true ? 'block' : 'none'}" >
+
+    <div class="panel" id="panel-body" (focusout)="saveNotes(tileId, ref.value)" >
+
+        <textarea id="myText" #ref spellcheck="false">{{card.notes}}</textarea>
+
+        <div class="actions">
+            <div id="like" (click)="updateLike()">
+                <img src="../../assets/heartblue.svg">
+            </div>
+            <div id="counter">
+                {{card.likes}}
+            </div>
+            <div id="del" (click)="deleteCard()">
+                <img src="../../assets/delete.svg">
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,9 @@
+.header {
+  padding: 5px;
+  text-align: center;
+  font-family: "Handlee", "Roboto", helvetica, cursive;
+  font-weight: bold;
+  font-size: 138.5%;
+  height: 50px;
+  display: flex;
+}
