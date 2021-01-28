@@ -38,16 +38,15 @@ export class OverlayComponent implements OnInit {
 
   saveNotes(tileId: string, notes: string) {
     var cardId = this._cardService.cardToBeUpdated;
-
     if (cardId && cardId != '') {
       this._cardService.updateCard(this.card.id, notes);
     } else if (tileId && tileId != '') {
       this._cardService.addCard(tileId, notes);
     }
 
-    this.clearOverlay();
+    //reset to init
+    //this.clearOverlay();
     this.hideOverlay();
-
     this._cardService.cardToBeUpdated = '';
   }
 
@@ -59,10 +58,12 @@ export class OverlayComponent implements OnInit {
     this._cardService.updateCard(cardId, notes);
   }
 
-  deleteCard(cardId: string) {
+  deleteCard() {
+    var cardId = this._cardService.cardToBeUpdated;
     if (cardId && cardId != '') {
       this._cardService.deleteCard(cardId);
     }
+    this._cardService.cardToBeUpdated = '';
     this.hideOverlay();
   }
 
@@ -80,6 +81,7 @@ export class OverlayComponent implements OnInit {
   }
 
   clearOverlay() {
+    this.card.id = '';
     this.card.notes = '';
     this.card.likes = 0;
   }

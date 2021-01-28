@@ -35,6 +35,8 @@ export class CardService {
       this.cards[0] = this.getCard(tileId, notes);
     }
     this.cardEvent.next(this.cards);
+    this.card.notes = '';
+    this.card.likes = 0;
   }
 
   getCard(tileId: string, notes: string) {
@@ -63,8 +65,10 @@ export class CardService {
     this.cards[index].notes = notes;
     this.cardEvent.next(this.cards);
     this.cardToBeUpdated = '';
-    console.log('updatecard : ');
-    console.log(this.cards);
+    // console.log('updatecard : ');
+    // console.log(this.cards);
+    this.card.notes = '';
+    this.card.likes = 0;
   }
 
   updateLikes(cardId: string) {

@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this._cardService.cardEvent.subscribe((cards: ICard[]) => {
       this.cards = cards;
+      console.log(cards);
     });
 
     console.log(this.cards);

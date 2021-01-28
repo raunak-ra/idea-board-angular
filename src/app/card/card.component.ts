@@ -9,6 +9,7 @@ import { CardService } from '../services/card.service';
 })
 export class CardComponent implements OnInit {
   @Input() public card: ICard;
+
   constructor(public _cardService: CardService) {
     this.card = {
       id: '',
@@ -27,4 +28,5 @@ export class CardComponent implements OnInit {
     this._cardService.overlayCardEvent.next(this.card);
     this._cardService.displayOverlay(true);
   }
+  
 }
