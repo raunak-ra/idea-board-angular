@@ -9,21 +9,19 @@ import { CardService } from '../services/card.service';
   styleUrls: ['./overlay.component.css'],
 })
 export class OverlayComponent implements OnInit {
-  public card: ICard;
+  public card: ICard = {
+    id: '',
+    tileId: '',
+    notes: '',
+    date: Date.UTC(12, 7, 1),
+    name: '',
+    likes: 0,
+  };
   @Input() public tileId: string = '';
   @Input() public cardId: string = '';
   @Input() public displayPanel: boolean = false;
 
-  constructor(private _cardService: CardService) {
-    this.card = {
-      id: '',
-      tileId: '',
-      notes: '',
-      date: Date.UTC(12, 7, 1),
-      name: '',
-      likes: 0,
-    };
-  }
+  constructor(private _cardService: CardService) {}
 
   ngOnInit(): void {
     this.displayPanel = this._cardService.IsPanelVisible;
@@ -33,21 +31,26 @@ export class OverlayComponent implements OnInit {
 
     this._cardService.overlayCardEvent.subscribe((card: ICard) => {
       this.card = card;
+      console.log('inside overlay..');
     });
+    // .unsubscribe();
   }
 
-  saveNotes(tileId: string, notes: string) {
-    var cardId = this._cardService.cardToBeUpdated;
-    if (cardId && cardId != '') {
-      this._cardService.updateCard(this.card.id, notes);
-    } else if (tileId && tileId != '') {
-      this._cardService.addCard(tileId, notes);
-    }
+  saveNotes(tileId: string, notes: string, event: any) {
+    if (event.target.className == 'overlay') {
+      var cardId = this._cardService.cardToBeUpdated;
+      
+      if (cardId && cardId != '') {
+        this._cardService.updateCard(cardId, notes);
+      } else if (tileId && tileId != '') {
+        this._cardService.addCard(tileId, notes);
+      }
 
-    //reset to init
-    //this.clearOverlay();
-    this.hideOverlay();
-    this._cardService.cardToBeUpdated = '';
+      //reset to init
+      // this.clearOverlay();
+      this.hideOverlay();
+      this._cardService.cardToBeUpdated = '';
+    }
   }
 
   addCard(tileId: string, notes: string) {
@@ -81,8 +84,10 @@ export class OverlayComponent implements OnInit {
   }
 
   clearOverlay() {
+    console.log(this.card);
     this.card.id = '';
     this.card.notes = '';
     this.card.likes = 0;
+    console.log(this.card);
   }
 }

@@ -4,6 +4,7 @@
   position: fixed;
   margin-top: 15%;
   margin-left: 33%;
+  z-index: 100;
 }
 
 img {
@@ -27,7 +28,7 @@ textarea {
 }
 
 .overlay {
-  z-index: 100;
+  z-index: 90;
   background: beige;
   opacity: 0.8;
   margin: 0;
