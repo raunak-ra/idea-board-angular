@@ -24,9 +24,7 @@ export class CardComponent implements OnInit {
   ngOnInit(): void {}
 
   updateCard(cardId: string) {
-    this._cardService.cardToBeUpdated = cardId;
-    this._cardService.overlayCardEvent.next(this.card);
+    this._cardService.publishCard(this._cardService.getCard(cardId));
     this._cardService.displayOverlay(true);
   }
-  
 }

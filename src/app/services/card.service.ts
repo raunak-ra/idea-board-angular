@@ -6,7 +6,6 @@ import { ICard } from '../model/card';
   providedIn: 'root',
 })
 export class CardService {
-  cardToBeUpdated: string = '';
   cardId: number = 0;
 
   private card: ICard = {
@@ -20,26 +19,26 @@ export class CardService {
 
   public IsPanelVisible: boolean = false;
   public cardEvent = new BehaviorSubject<ICard[]>([]);
-  public overlayEvent = new BehaviorSubject<boolean>(false);
   public overlayCardEvent = new BehaviorSubject<ICard>(this.card);
+  public overlayEvent = new BehaviorSubject<boolean>(false);
 
   constructor() {}
 
-  private cards: ICard[] = [];
+  cards: ICard[] = [];
 
   addCard(tileId: string, notes: string) {
+    var card = this.getNewCard(tileId, notes);
     if (this.cards) {
-      this.cards.push(this.getCard(tileId, notes));
+      this.cards.push(card);
     } else {
       this.cards = [];
-      this.cards[0] = this.getCard(tileId, notes);
+      this.cards[0] = card;
     }
     this.cardEvent.next(this.cards);
-    this.card.notes = '';
-    this.card.likes = 0;
+    return card;
   }
 
-  getCard(tileId: string, notes: string) {
+  private getNewCard(tileId: string, notes: string) {
     var date: Date = new Date();
     var card: ICard = {
       id: this.getCardId(tileId),
@@ -60,15 +59,14 @@ export class CardService {
     return this.cards;
   }
 
+  getCard(cardId: string) {
+    return this.cards.find((x) => x.id == cardId) ?? this.card;
+  }
+
   updateCard(cardId: string, notes: string) {
     var index = this.cards.findIndex((x) => x.id == cardId);
     this.cards[index].notes = notes;
     this.cardEvent.next(this.cards);
-    this.cardToBeUpdated = '';
-    // console.log('updatecard : ');
-    // console.log(this.cards);
-    this.card.notes = '';
-    this.card.likes = 0;
   }
 
   updateLikes(cardId: string) {
@@ -85,6 +83,9 @@ export class CardService {
 
   displayOverlay(flag: boolean, cardId: string = '') {
     this.overlayEvent.next(flag);
-    if (cardId) this.cardToBeUpdated = cardId;
+  }
+
+  publishCard(card: ICard) {
+    this.overlayCardEvent.next(card);
   }
 }

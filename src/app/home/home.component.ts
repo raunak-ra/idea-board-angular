@@ -8,19 +8,19 @@ import { CardService } from '../services/card.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  cards: ICard[] = this._cardService.getCards();
+  cards: ICard[];
 
-  public tileId: string = '';
   public displayPanel: boolean = false;
   public card: ICard;
   public cardId: string = '';
 
   constructor(private _cardService: CardService) {
+    this.cards = this._cardService.getCards();
     this.card = {
-      id: '123',
+      id: '',
       tileId: '',
       notes: '',
-      date: Date.UTC(12, 7, 1),
+      date: Date.UTC(0, 0, 0),
       name: '',
       likes: 0,
     };
@@ -29,14 +29,12 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this._cardService.cardEvent.subscribe((cards: ICard[]) => {
       this.cards = cards;
-      console.log(cards);
     });
-
-    console.log(this.cards);
   }
 
   addCard(tileId: string) {
-    this.tileId = tileId;
+    var card = this._cardService.addCard(tileId, '');
+    this._cardService.publishCard(card);
     this._cardService.displayOverlay(true);
   }
 }
