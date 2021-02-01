@@ -1,17 +1,18 @@
-<div class="overlay" [ngStyle]="{'display': displayPanel == true ? 'block' : 'none'}" >
+<div class="overlay" [ngStyle]="{'display': displayPanel == true ? 'flex' : 'none'}"
+    (click)="saveNotes(ref.value, $event)">
 
-    <div class="panel" id="panel-body" (focusout)="saveNotes(tileId, ref.value)" >
+    <div class="panel" id="panel-body">
 
         <textarea id="myText" #ref spellcheck="false">{{card.notes}}</textarea>
 
         <div class="actions">
-            <div id="like" (click)="updateLike()">
+            <div id="like" (click)="updateLike(card.id)">
                 <img src="../../assets/heartblue.svg">
             </div>
             <div id="counter">
                 {{card.likes}}
             </div>
-            <div id="del" (click)="deleteCard()">
+            <div id="del" (click)="deleteCard(card.id)">
                 <img src="../../assets/delete.svg">
             </div>
         </div>

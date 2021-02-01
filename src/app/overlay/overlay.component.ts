@@ -9,45 +9,35 @@ import { CardService } from '../services/card.service';
   styleUrls: ['./overlay.component.css'],
 })
 export class OverlayComponent implements OnInit {
-  public card: ICard;
-  @Input() public tileId: string = '';
-  @Input() public cardId: string = '';
+  card: ICard = {
+    id: '',
+    tileId: '',
+    notes: '',
+    date: Date.UTC(0, 0, 0),
+    name: '',
+    likes: 0,
+  };
+
   @Input() public displayPanel: boolean = false;
 
-  constructor(private _cardService: CardService) {
-    this.card = {
-      id: '',
-      tileId: '',
-      notes: '',
-      date: Date.UTC(12, 7, 1),
-      name: '',
-      likes: 0,
-    };
-  }
+  constructor(private _cardService: CardService) {}
 
   ngOnInit(): void {
+    this._cardService.overlayCardEvent.subscribe((card: ICard) => {
+      this.card = card;
+      console.log('inside overlay..', this.card);
+    });
     this.displayPanel = this._cardService.IsPanelVisible;
     this._cardService.overlayEvent.subscribe((flag: boolean) => {
       this.displayPanel = flag;
     });
-
-    this._cardService.overlayCardEvent.subscribe((card: ICard) => {
-      this.card = card;
-    });
   }
 
-  saveNotes(tileId: string, notes: string) {
-    var cardId = this._cardService.cardToBeUpdated;
-    if (cardId && cardId != '') {
+  saveNotes(notes: string, event: any) {
+    if (event.target.className == 'overlay') {
       this._cardService.updateCard(this.card.id, notes);
-    } else if (tileId && tileId != '') {
-      this._cardService.addCard(tileId, notes);
+      this.hideOverlay();
     }
-
-    //reset to init
-    //this.clearOverlay();
-    this.hideOverlay();
-    this._cardService.cardToBeUpdated = '';
   }
 
   addCard(tileId: string, notes: string) {
@@ -58,17 +48,14 @@ export class OverlayComponent implements OnInit {
     this._cardService.updateCard(cardId, notes);
   }
 
-  deleteCard() {
-    var cardId = this._cardService.cardToBeUpdated;
+  deleteCard(cardId: string) {
     if (cardId && cardId != '') {
       this._cardService.deleteCard(cardId);
     }
-    this._cardService.cardToBeUpdated = '';
     this.hideOverlay();
   }
 
-  updateLike() {
-    var cardId = this._cardService.cardToBeUpdated;
+  updateLike(cardId: string) {
     if (cardId && cardId != '') {
       this._cardService.updateLikes(cardId);
     } else {
@@ -78,11 +65,5 @@ export class OverlayComponent implements OnInit {
 
   hideOverlay() {
     this.displayPanel = false;
-  }
-
-  clearOverlay() {
-    this.card.id = '';
-    this.card.notes = '';
-    this.card.likes = 0;
   }
 }
