@@ -20,6 +20,11 @@ img {
 .like {
   display: flex;
 }
+.likes {
+  color: red;
+  font-size: x-large;
+  color: darkturquoise;
+}
 
 .card1 {
   background: #c3ee8f;
@@ -31,4 +36,14 @@ img {
 
 .card3 {
   background: #eed3ff;
+}
+
+img:hover {
+  -webkit-transform: rotate(720deg);
+  transform: rotate(720deg);
+}
+img {
+  border-radius: 50%;
+  -webkit-transition: -webkit-transform 0.8s ease-in-out;
+  transition: transform 0.8s ease-in-out;
 }
